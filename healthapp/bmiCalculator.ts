@@ -19,7 +19,7 @@ const parseArguments = (args: string[]): CalculatorValues => {
   }
 }
 
-const calculateBmi = (height: number, weight: number): range => {
+export const calculateBmi = (height: number, weight: number): range => {
   const bmi: number = weight / (((height / 100) * height) / 100)
 
   if (bmi <= 18.5) {
@@ -33,11 +33,13 @@ const calculateBmi = (height: number, weight: number): range => {
   }
 }
 
-try {
-  const { height, weight } = parseArguments(process.argv)
-  console.log(calculateBmi(height, weight))
-} catch (error: unknown) {
-  if (error instanceof Error) {
-    console.log(" Error: " + error.message)
+if (process.argv[1] === import.meta.filename) {
+  try {
+    const { height, weight } = parseArguments(process.argv)
+    console.log(calculateBmi(height, weight))
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.log(" Error: " + error.message)
+    }
   }
 }
