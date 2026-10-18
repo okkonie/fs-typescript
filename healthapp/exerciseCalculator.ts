@@ -1,44 +1,47 @@
 interface InputValues {
-  target: number
-  exercises: number[]
+  target: number;
+  exercises: number[];
 }
 
 interface Result {
-  periodLength: number
-  trainingDays: number
-  success: boolean
-  rating: number
-  ratingDescription: string
-  target: number
-  avarage: number
+  periodLength: number;
+  trainingDays: number;
+  success: boolean;
+  rating: number;
+  ratingDescription: string;
+  target: number;
+  average: number;
 }
 
 const parseExerciseArguments = (args: string[]): InputValues => {
   if (args.length < 4) {
-    throw new Error("Too few arguments")
+    throw new Error("Too few arguments");
   }
 
   if (args.slice(2).some((n) => isNaN(Number(n)))) {
-    throw new Error("All arguments must be numbers")
+    throw new Error("All arguments must be numbers");
   }
 
-  const [target, ...exercises] = args.slice(2).map(Number)
+  const [target, ...exercises] = args.slice(2).map(Number);
 
-  return { target, exercises }
-}
+  return { target, exercises };
+};
 
-const calculateExercises = (exercises: number[], target: number): Result => {
-  const avarage = exercises.reduce((n, a) => n + a, 0) / exercises.length
-  const success = avarage >= target ? true : false
+export const calculateExercises = (
+  exercises: number[],
+  target: number,
+): Result => {
+  const average = exercises.reduce((n, a) => n + a, 0) / exercises.length;
+  const success = average >= target ? true : false;
 
-  const rating = success ? 3 : avarage >= target - 0.3 ? 2 : 1
+  const rating = success ? 3 : average >= target - 0.3 ? 2 : 1;
 
   const ratingDescription =
     rating == 3
       ? "You've completed your workouts successfully"
       : rating == 2
         ? "Not too bad but could be better"
-        : "Failed to meet target"
+        : "Failed to meet target";
 
   return {
     periodLength: exercises.length,
@@ -47,15 +50,17 @@ const calculateExercises = (exercises: number[], target: number): Result => {
     rating,
     ratingDescription,
     target,
-    avarage,
-  }
-}
+    average,
+  };
+};
 
-try {
-  const { target, exercises } = parseExerciseArguments(process.argv)
-  console.log(calculateExercises(exercises, target))
-} catch (error: unknown) {
-  if (error instanceof Error) {
-    console.error(error.message)
+if (process.argv[1] === import.meta.filename) {
+  try {
+    const { target, exercises } = parseExerciseArguments(process.argv);
+    console.log(calculateExercises(exercises, target));
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error(error.message);
+    }
   }
 }
