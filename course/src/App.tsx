@@ -1,5 +1,7 @@
 import { type CoursePart } from "./types";
 import Content from "./components/Content";
+import Total from "./components/Total";
+import Header from "./components/Header";
 
 const App = () => {
   const courseName = "Half Stack application development";
@@ -49,12 +51,6 @@ const App = () => {
   const totalExercises = courseParts.reduce(
     (sum, part) => sum + part.exerciseCount,
     0,
-  );
-
-  const Header = ({ title }: { title: string }) => <h1>{title}</h1>;
-
-  const Total = ({ total }: { total: number }) => (
-    <p>Number of exercises {total}</p>
   );
 
   return (
